@@ -191,6 +191,10 @@ var Compiler = {
 					tgt.closest(".col").addClass("m4");
 				}
 			}
+
+			Compiler.source.resize();
+			Compiler.params.resize();
+			Compiler.functions.resize();
 			//TODO FIXME quick hack to implement maximize support
 		}
 	}
