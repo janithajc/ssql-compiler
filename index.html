@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0">
+  <title>SQL Compiler</title>
+  <link rel="shortcut icon" href="assets/img/favicon.png" />
+
+  <!-- CSS  -->
+  <link href="assets/icon.css" rel="stylesheet">
+  <link href="assets/materialize.css" type="text/css" rel="stylesheet" media="screen,projection">
+  <link href="assets/style.css" type="text/css" rel="stylesheet" media="screen,projection">
+</head>
+<body>
+  <nav class="light-blue lighten-1" role="navigation">
+    <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo">SQL Compiler <span class="light-blue-text text-lighten-3">| Pre-Alpha v0.01 </span></a>
+      <ul class="right hide-on-med-and-down">
+        <li><a href="#"></a></li>
+      </ul>
+
+      <ul id="nav-mobile" class="side-nav" style="transform: translateX(-100%);">
+        <li><a href="#"></a></li>
+      </ul>
+      <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+    </div>
+  </nav>
+  <div class="section no-pad-bot" id="index-banner">
+    <div class="container">
+      <br><br>
+      <h1 class="header center orange-text">Compile SQL</h1>
+      <br><br>
+
+    </div>
+  </div>
+
+    <div class="fixed-action-btn toolbar">
+    <a class="btn-floating btn-large">
+      <i class="large material-icons">menu</i>
+    </a>
+    <ul>
+      <li class="waves-effect waves-light tooltipped" data-position="top" data-delay="50" data-tooltip="Minimize/Maximize Editors"><a href="#!" onclick="Compiler.UI.maximizeMinimize()"><i class="material-icons">view_carousel</i></a></li>
+      <li class="waves-effect waves-light tooltipped" data-position="top" data-delay="50" data-tooltip="Compile!"><a href="#compile" onclick="Compiler.compileAndShow()"><i class="material-icons">compare_arrows</i></a></li>
+      <li class="waves-effect waves-light tooltipped" data-position="top" data-delay="50" data-tooltip="Load Saved State"><a href="#!" onclick="$('#load').click()"><i class="material-icons">publish</i></a></li>
+      <li class="waves-effect waves-light tooltipped" data-position="top" data-delay="50" data-tooltip="Save State"><a href="#!" onclick="Compiler.save()"><i class="material-icons">save</i></a></li>
+    </ul>
+  </div>
+
+  <div class="container">
+    <div class="section">
+
+    <div class="row">
+      <div class="col s12 m10">
+        <div class="file-field input-field">
+          <div class="btn">
+            <span>Load
+            <i class="material-icons right">publish</i></span>
+            <input type="file" id="load">
+          </div>
+          <div class="file-path-wrapper">
+            <input class="file-path validate" placeholder="Open a saved SQL Compiler State" type="text">
+          </div>
+        </div>
+      </div>
+      <div class="col s12 m2">
+        <div class="input-field">
+            <button class="btn waves-effect waves-light" type="button" id="save" name="save" onclick="Compiler.save()">Save
+              <i class="material-icons right">save</i>
+            </button>
+          </div>
+      </div>
+    </div>
+
+      <!--   Icon Section   -->
+      <div class="row">
+        <div class="col s12">
+          <div class="icon-block">
+            <h2 class="center light-blue-text minmax-btn"><i class="material-icons">description</i></h2>
+
+            <div class="row">
+            <form class="col s12">
+              <div class="row">
+                <div class="col s12">
+                  <label for="source">Source</label>
+                  <pre id="source">SELECT $test(@text);</pre>
+                </div>
+              </div>
+            </form>
+          </div>
+          </div>
+        </div>
+
+        <div class="col s12">
+          <div class="icon-block">
+            <h2 class="center light-blue-text minmax-btn"><i class="material-icons">extension</i></h2>
+
+            <div class="row">
+            <form class="col s12">
+              <div class="row">
+                <div class="col s12">
+                  <label for="params">Parameters</label>
+                  <pre id="params">@text:
+'Hello World!'</pre>
+                </div>
+              </div>
+            </form>
+          </div>
+          </div>
+        </div>
+
+        <div class="col s12">
+          <div class="icon-block">
+            <h2 class="center light-blue-text minmax-btn"><i class="material-icons">all_inclusive</i></h2>
+
+            <div class="row">
+            <form class="col s12">
+              <div class="row">
+                <div class="col s12">
+                  <label for="functions">Functions</label>
+                  <pre id="functions">function test(str) {
+    return '\''+str+'\'';
+}</pre>
+                </div>
+              </div>
+            </form>
+          </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col s12">
+          <div class="icon-block">
+          <div class="center-align">
+            <button class="btn waves-effect waves-light" type="button" id="compile" name="compile">Compile
+              <i class="material-icons right rotate-180">call_merge</i>
+            </button>
+          </div>
+
+            <div class="row">
+            <form class="col s12">
+              <div class="row">
+                <div class="col s12">
+                  <label for="output">Output</label>
+                  <pre id="output"></pre>
+                </div>
+              </div>
+            </form>
+          </div>
+          </div>
+        </div>
+      </div>
+      </div>
+    </div>
+    <br><br>
+  </div>
+
+  <footer class="page-footer orange">
+    <div class="container">
+      <div class="row">
+        <div class="col l6 s12">
+          <h3 class="white-text">How To Use</h3>
+          <p class="grey-text text-lighten-4">Paste the source on the source editor, parameters in the parameters editor, functions in the functions editor and click compile to get the result in the output textbox. Make sure to use the right format for parameters and functions.</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col l6 s12">
+          <h5 class="white-text">Parameters</h5>
+          <p class="grey-text text-lighten-4">
+          @parameterName:<br>
+          'parameter value'
+          <br><br>
+          @parameter2Name:<br>
+          'parameter 2 value' / @parameter3name
+          <br><br>
+          @parameter3Name:<br>
+          'Parameter 3 value'
+          </p>
+        </div>
+        <div class="col l6 s12">
+          <h5 class="white-text">Functions</h5>
+          <p class="grey-text text-lighten-4">
+          All functions should be of JavaSctipt syntax. Feel free to re-use functions that are defined in the same, since the whole namespace will be evaluated along with usages in the source.
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="footer-copyright">
+      <div class="container">
+      Made using <a class="orange-text text-lighten-3" href="http://materializecss.com/">Materialize</a>
+      </div>
+    </div>
+  </footer>
+
+
+  <!--  Scripts-->
+  <script src="assets/jquery-2.js"></script>
+  <script src="assets/materialize.js"></script>
+  <script src="plugins/ace-builds-master/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
+  <script src="plugins/ace-builds-master/src-noconflict/ext-language_tools.js"></script>
+  <script src="assets/init.js"></script>
+
+<div class="hiddendiv common"></div><div class="drag-target" data-sidenav="nav-mobile" style="left: 0px; touch-action: pan-y;"></div></body></html>
