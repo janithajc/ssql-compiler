@@ -125,7 +125,7 @@ var Compiler = {
 
 		  var reader = new FileReader();
 
-		  reader.readAsText(readFile, "UTF-18");
+		  reader.readAsText(readFile, "UTF-8");
 
 		  // Handle progress, success, and errors
 		  reader.onprogress = updateProgress;
