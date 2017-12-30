@@ -24,21 +24,27 @@ var Compiler = {
 	    Compiler.source.setTheme("ace/theme/chrome");
 	    Compiler.source.session.setMode("ace/mode/ssql");
 	    Compiler.source.setOptions(options);
+	    Compiler.UI.updateProgress(25);
 
 		Compiler.params = ace.edit("params");
 	    Compiler.params.setTheme("ace/theme/chrome");
 	    Compiler.params.session.setMode("ace/mode/sql");
 	    Compiler.params.setOptions(options);
+		Compiler.UI.updateProgress(50);
 
 		Compiler.functions = ace.edit("functions");
 	    Compiler.functions.setTheme("ace/theme/chrome");
 	    Compiler.functions.session.setMode("ace/mode/javascript");
 	    Compiler.functions.setOptions(options);
+		Compiler.UI.updateProgress(75);
 
 		Compiler.output = ace.edit("output");
 	    Compiler.output.setTheme("ace/theme/chrome");
 	    Compiler.output.session.setMode("ace/mode/pgsql");
 	    Compiler.output.setOptions(options);
+	    Compiler.UI.updateProgress(100);
+
+	    Compiler.UI.hideProgress();
 	},
 	compileAndShow: function() {
 		var compilerOutput = Compiler.compile(Compiler.source.getValue(), Compiler.params.getValue(), Compiler.functions.getValue());
@@ -138,8 +144,7 @@ var Compiler = {
 		    // evt.loaded and evt.total are ProgressEvent properties
 		    var loaded = (evt.loaded / evt.total);
 		    if (loaded < 1) {
-		      // Increase the prog bar length
-		      // style.width = (loaded * 200) + "px";
+		      Compiler.UI.updateProgress(loaded*100);
 		    }
 		  }
 		}
@@ -148,34 +153,54 @@ var Compiler = {
 		  // Obtain the read file data
 		  var fileString = evt.target.result;
 
+		  Compiler.UI.hideProgress();
+
 		  Compiler.fileName = $('#load').prop('files')[0].name;
 
 		  Compiler.load(fileString);
-
-		  Materialize.toast("Loaded!",2000,"green");
+		  
 		}
 
 		function errorHandler(evt) {
 		  if(evt.target.error.name == "NotReadableError") {
 		    // The file could not be read
 		    Materialize.toast("Error loading file!",3000,"red");
+		    Compiler.UI.hideProgress();
 		  }
 		}
 
 		var file = $('#load').prop('files')[0];
 		if(file){
 			getAsText(file);
+			Compiler.UI.showProgress();
 		}
 	},
 	load: function(text) {
-		var state = JSON.parse(text);
+		try{
 
-		Compiler.source.setValue(state.source);
-		Compiler.params.setValue(state.params);
-		Compiler.functions.setValue(state.functions);
-		Compiler.output.setValue(state.output);
+			var state = JSON.parse(text);
+
+			Compiler.source.setValue(state.source);
+			Compiler.params.setValue(state.params);
+			Compiler.functions.setValue(state.functions);
+			Compiler.output.setValue(state.output);	
+
+			Materialize.toast("Loaded!",2000,"green");
+		} catch (e) {
+			Materialize.toast("Invalid file selected!", 3000, "red");
+		}
 	},
 	UI: {
+		progressBar: $("#progress-bar"),
+		showProgress: function(){
+			Compiler.UI.progressBar.removeClass("hide");
+		},
+		hideProgress: function(){
+			Compiler.UI.progressBar.addClass("hide");
+		},
+		updateProgress: function(percent){
+			Compiler.UI.progressBar.css('width', percent+"%");
+		},
 		maximizeMinimize(e){
 			if(e){
 				var tgt = $(e.target);
