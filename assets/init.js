@@ -192,14 +192,22 @@ var Compiler = {
 	},
 	UI: {
 		progressBar: $("#progress-bar"),
-		showProgress: function(){
+		progressBarInner: $("#progress-bar").find("div"),
+		showProgress: function(indeterminate){
 			Compiler.UI.progressBar.removeClass("hide");
+			if(indeterminate) {
+				Compiler.UI.progressBarInner.removeClass("determinate");
+				Compiler.UI.progressBarInner.addClass("indeterminate");
+			} else {
+				Compiler.UI.progressBarInner.removeClass("indeterminate");
+				Compiler.UI.progressBarInner.addClass("determinate");
+			}
 		},
 		hideProgress: function(){
 			Compiler.UI.progressBar.addClass("hide");
 		},
 		updateProgress: function(percent){
-			Compiler.UI.progressBar.css('width', percent+"%");
+			Compiler.UI.progressBarInner.css('width', percent+"%");
 		},
 		maximizeMinimize(e){
 			if(e){
