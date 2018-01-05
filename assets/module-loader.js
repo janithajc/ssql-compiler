@@ -8,7 +8,10 @@ Compiler.moduleLoader = {
 		$.getScript( url )
 		  .done(function( script, textStatus ) {
 			Materialize.toast("Module: "+name+" loaded!", 2000, "light-blue");
-			Compiler.moduleLoader.loadedModules.push(name);
+			Compiler.moduleLoader.loadedModules.push({
+				name: name,
+				url: url
+			});
 		  })
 		  .fail(function( jqxhr, settings, exception ) {
 		    Materialize.toast("Loading Module:'"+ name +"' from URL: "+ url +" failed!", 5000, "orange");

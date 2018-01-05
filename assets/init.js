@@ -113,7 +113,8 @@ var Compiler = {
 			source: Compiler.source.getValue(),
 			params: Compiler.params.getValue(),
 			functions: Compiler.functions.getValue(),
-			output: Compiler.output.getValue()
+			output: Compiler.output.getValue(),
+			modules: Compiler.moduleLoader.loadedModules
 		};
 		var element = document.createElement('a');
 		  element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(JSON.stringify(state)));
@@ -183,10 +184,17 @@ var Compiler = {
 			Compiler.source.setValue(state.source);
 			Compiler.params.setValue(state.params);
 			Compiler.functions.setValue(state.functions);
-			Compiler.output.setValue(state.output);	
+			Compiler.output.setValue(state.output);
+
+			if(state.modules) {
+				$.map(state.modules, function(m){
+					Compiler.moduleLoader.loadModule(m.url, m.name);
+				});
+			}
 
 			Materialize.toast("Loaded!",2000,"green");
 		} catch (e) {
+			console.log(e);
 			Materialize.toast("Invalid file selected!", 3000, "red");
 		}
 	},
