@@ -86,7 +86,7 @@ var Compiler = {
 		});
 
 		if(functions) {
-			var functionsInSource = output.match(/\$[^\s)(]+\((?:[^)(]+|\((?:[^)(]+|\([^)(]*\))*\))*\)/gi);
+			var functionsInSource = output.match(/\$[^\s)(]+\((?:[^)(]+|\((?:[^)(]+|\([^)(]*\))*\))*\)/gi) || [];
 			$.map(functionsInSource, function(func) {
 				var fn = func.replace(/\$/gi,"");
 
