@@ -252,6 +252,10 @@ $(window).bind('keydown', function(event) {
             event.preventDefault();
             $("#load").click();
             break;
+        case 'e':
+            event.preventDefault();
+            Compiler.compileAndShow();
+            break;
         }
     }
 });
