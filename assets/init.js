@@ -17,6 +17,7 @@ var Compiler = {
 	    $('.tooltipped').tooltip({delay: 50});
     	$('.button-collapse').sideNav();
     	$('.minmax-btn').on('click', Compiler.UI.maximizeMinimize);
+    	$('.fullscreen-btn').on('click', Compiler.UI.toggleFullScreen);
     	$('#load').on('change', Compiler.loadFromFile);
 		Compiler.compileBtn.on("click", Compiler.compileAndShow);
 
@@ -220,16 +221,16 @@ var Compiler = {
 		maximizeMinimize(e){
 			if(e){
 				var tgt = $(e.target);
-				tgt.closest(".col").toggleClass("m4");
+				tgt.closest(".source-view").toggleClass("m4");
 			} else {
 				tgt = $(".minmax-btn");
 				if(!tgt.length){
 					return false;
 				}
-				if($(tgt[0]).closest(".col").hasClass("m4")){
-					tgt.closest(".col").removeClass("m4");
+				if($(tgt[0]).closest(".source-view").hasClass("m4")){
+					tgt.closest(".source-view").removeClass("m4");
 				} else {
-					tgt.closest(".col").addClass("m4");
+					tgt.closest(".source-view").addClass("m4");
 				}
 			}
 
@@ -237,6 +238,24 @@ var Compiler = {
 			Compiler.params.resize();
 			Compiler.functions.resize();
 			//TODO FIXME quick hack to implement maximize support
+		},
+		toggleFullScreen(e){
+			if(e){
+				var tgt = $(e.target);
+				tgt.closest(".source-view").toggleClass("full-screen");
+				if(tgt.closest(".source-view").hasClass("full-screen")) {
+					var preHeight = $(".full-screen").innerHeight();
+					$("pre").css("height", "calc(" + preHeight + "px - 100px)");
+					$("body").css("overflow", "hidden");
+				} else {
+					$("pre").css("height","");
+					$("body").css("overflow", "auto");
+				}
+			}
+
+			Compiler.source.resize();
+			Compiler.params.resize();
+			Compiler.functions.resize();
 		}
 	}
 }

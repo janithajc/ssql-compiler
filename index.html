@@ -74,7 +74,7 @@
 
       <!--   Icon Section   -->
       <div class="row">
-        <div class="col s12">
+        <div class="col s12 source-view">
           <div class="icon-block">
             <h2 class="center light-blue-text minmax-btn"><i class="material-icons">description</i></h2>
 
@@ -82,7 +82,13 @@
             <form class="col s12">
               <div class="row">
                 <div class="col s12">
-                  <label for="source">Source</label>
+                  <div class="full-width">
+                    <label>Source</label>
+                    <div class="right">
+                      <a class="waves-effect waves-dark btn-small"><i class="material-icons minmax-btn">view_carousel</i></a>
+                      <a class="waves-effect waves-dark btn-small"><i class="material-icons fullscreen-btn">fullscreen</i></a>
+                    </div>
+                  </div>
                   <pre id="source">SELECT $test(@text);</pre>
                 </div>
               </div>
@@ -91,7 +97,7 @@
           </div>
         </div>
 
-        <div class="col s12">
+        <div class="col s12 source-view">
           <div class="icon-block">
             <h2 class="center light-blue-text minmax-btn"><i class="material-icons">extension</i></h2>
 
@@ -99,7 +105,13 @@
             <form class="col s12">
               <div class="row">
                 <div class="col s12">
-                  <label for="params">Parameters</label>
+                  <div>
+                    <label>Parameters</label>
+                    <div class="right">
+                      <a class="waves-effect waves-dark btn-small"><i class="material-icons minmax-btn">view_carousel</i></a>
+                      <a class="waves-effect waves-dark btn-small"><i class="material-icons fullscreen-btn">fullscreen</i></a>
+                    </div>
+                  </div>
                   <pre id="params">@text:
 'Hello World!'</pre>
                 </div>
@@ -109,7 +121,7 @@
           </div>
         </div>
 
-        <div class="col s12">
+        <div class="col s12 source-view">
           <div class="icon-block">
             <h2 class="center light-blue-text minmax-btn"><i class="material-icons">all_inclusive</i></h2>
 
@@ -117,7 +129,13 @@
             <form class="col s12">
               <div class="row">
                 <div class="col s12">
-                  <label for="functions">Functions</label>
+                  <div>
+                    <label>Functions</label>
+                    <div class="right">
+                      <a class="waves-effect waves-dark btn-small"><i class="material-icons minmax-btn">view_carousel</i></a>
+                      <a class="waves-effect waves-dark btn-small"><i class="material-icons fullscreen-btn">fullscreen</i></a>
+                    </div>
+                  </div>
                   <pre id="functions">function test(str) {
     return '\''+str+'\'';
 }</pre>
@@ -129,7 +147,7 @@
         </div>
       </div>
       <div class="row">
-        <div class="col s12">
+        <div class="col s12 source-view">
           <div class="icon-block">
           <div class="center-align">
             <button class="btn waves-effect waves-light" type="button" id="compile" name="compile">Compile
