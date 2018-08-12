@@ -5,6 +5,8 @@ var Compiler = {
 	functions: null,
 	output: null,
 	fileName: "sqlCompilerState.json",
+	loadedMods: [],
+	modsToRemove: [],
 	init: function(){
 		var options = {
 	        enableBasicAutocompletion: true,
@@ -14,6 +16,7 @@ var Compiler = {
 	        maxLines: 30,
 	        minLines: 10
 	    };
+	    $('.modal').modal();
 	    $('.tooltipped').tooltip({delay: 50});
     	$('.button-collapse').sideNav();
     	$('.minmax-btn').on('click', Compiler.UI.maximizeMinimize);
@@ -187,20 +190,25 @@ var Compiler = {
 			Compiler.functions.setValue(state.functions);
 			Compiler.output.setValue(state.output);
 
-			if(state.modules) {
-				var loadedMods = [];
-				$.map(state.modules, function(m){
-					if($.inArray(m.name,loadedMods) < 0) {
-						Compiler.moduleLoader.loadModule(m.url, m.name);
-					}
-					loadedMods.push(m.name);
-				});
-			}
+			Compiler.loadModules(state.modules, true);
 
 			Materialize.toast("Loaded!",2000,"green");
 		} catch (e) {
 			console.log(e);
 			Materialize.toast("Invalid file selected!", 3000, "red");
+		}
+	},
+	loadModules: function(modules, init){
+		if(modules) {
+			$.map(modules, function(m){
+				if($.inArray(m.name,Compiler.loadedMods) < 0) {
+					Compiler.moduleLoader.loadModule(m.url, m.name);
+					Compiler.loadedMods.push(m.name);
+					if(init){
+						Compiler.UI.moduleLoader.addModule(m.name,m.url);
+					}
+				}
+			});
 		}
 	},
 	UI: {
@@ -260,6 +268,61 @@ var Compiler = {
 			Compiler.source.resize();
 			Compiler.params.resize();
 			Compiler.functions.resize();
+		},
+		showModuleLoader(){
+			$('#moduleModal').modal('open');
+		},
+		hideModuleLoader(){
+			$('#moduleModal').modal('close');
+		},
+		moduleLoader: {
+			template: $(".module").detach(),
+			parent: $("#loadedModules"),
+			addModule(name, url){
+				var that = Compiler.UI.moduleLoader;
+
+				var module = that.template.clone();
+
+				module.find(".mod_name").val(name);
+				module.find(".mod_url").val(url);
+
+				module.on("click", ".remove", function(e) {
+					var name = $(this).find(".mod_name").val();
+
+					if(name !== undefined){
+						Compiler.modsToRemove.push(name);
+					}
+
+					$(this).closest(".module").remove();
+				});
+
+				that.parent.append(module);
+
+				Materialize.updateTextFields();
+			},
+			apply(){
+				var that = Compiler.UI.moduleLoader;
+
+				var mods = [];
+
+				that.parent.find(".module").each(function(){
+					var m = $(this);
+					mods.push({name: m.find(".mod_name").val(), url: m.find(".mod_url").val()});
+				});
+
+				Compiler.modsToRemove.map(function(name){
+					Compiler.loadedMods = $.grep(Compiler.loadedMods, function(n) {
+						return n !== name;
+					});
+					Compiler.moduleLoader.loadedModules = $.grep(Compiler.moduleLoader.loadedModules, function(m){
+						return m.name != name;
+					});
+				});
+
+				Compiler.modsToRemove = [];
+
+				Compiler.loadModules(mods, false);
+			}
 		}
 	}
 }
@@ -278,6 +341,10 @@ $(window).bind('keydown', function(event) {
         case 'e':
             event.preventDefault();
             Compiler.compileAndShow();
+            break;
+        case 'm':
+            event.preventDefault();
+            Compiler.UI.showModuleLoader();
             break;
         }
     }
