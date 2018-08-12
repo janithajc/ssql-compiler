@@ -188,8 +188,12 @@ var Compiler = {
 			Compiler.output.setValue(state.output);
 
 			if(state.modules) {
+				var loadedMods = [];
 				$.map(state.modules, function(m){
-					Compiler.moduleLoader.loadModule(m.url, m.name);
+					if($.inArray(m.name,loadedMods) < 0) {
+						Compiler.moduleLoader.loadModule(m.url, m.name);
+					}
+					loadedMods.push(m.name);
 				});
 			}
 
