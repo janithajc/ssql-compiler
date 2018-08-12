@@ -12,7 +12,7 @@ var Compiler = {
 	        enableBasicAutocompletion: true,
 	        enableSnippets: true,
 	        enableLiveAutocompletion: false,
-	        setAutoScrollEditorIntoView: true,
+	        autoScrollEditorIntoView: true,
 	        maxLines: 30,
 	        minLines: 10
 	    };
