@@ -40,6 +40,7 @@
       <i class="large material-icons">menu</i>
     </a>
     <ul>
+      <li class="btn-floating btn-large orange tooltipped" data-position="left" data-delay="50" data-tooltip="Add/Remove Modules"><a href="#!" onclick="Compiler.UI.showModuleLoader()"><i class="material-icons">extension</i></a></li>
       <li class="btn-floating btn-large red tooltipped" data-position="left" data-delay="50" data-tooltip="Minimize/Maximize Editors"><a href="#!" onclick="Compiler.UI.maximizeMinimize()"><i class="material-icons">view_carousel</i></a></li>
       <li class="btn-floating btn-large yellow darken-1 tooltipped" data-position="left" data-delay="50" data-tooltip="Compile!"><a href="#compile" onclick="Compiler.compileAndShow()"><i class="material-icons">compare_arrows</i></a></li>
       <li class="btn-floating btn-large green tooltipped" data-position="left" data-delay="50" data-tooltip="Load Saved State"><a href="#!" onclick="$('#load').click()"><i class="material-icons">publish</i></a></li>
@@ -171,6 +172,37 @@
       </div>
     </div>
     <br><br>
+  </div>
+
+  <!-- Modal Structure -->
+  <div id="moduleModal" class="modal modal-fixed-footer">
+    <div class="modal-content">
+      <h4>Module Loader</h4>
+      <div id="loadedModules" class="row">
+        <div class="module row">
+          <div class="input-field col s3">
+            <input placeholder="Name of the module" type="text" class="mod_name">
+            <label for="mod_name">Module Name</label>
+          </div>
+          <div class="input-field col s6">
+            <input placeholder="Fully qualified URL of the module" type="URL" class="mod_url">
+            <label for="mod_url">Module URL</label>
+          </div>
+          <div class="col s3">
+            <a class="waves-effect waves-red btn-flat remove">Remove <i class="material-icons right">close</i></a>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="s12 center">
+          <a class="waves-effect waves-light btn" onclick="Compiler.UI.moduleLoader.addModule()">Add new module<i class="material-icons right">add</i></a>        
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-close waves-effect waves-red btn-flat">Cancel</a>
+      <a href="#!" class="modal-close waves-effect waves-light green btn" onclick="Compiler.UI.moduleLoader.apply()">Apply</a>
+    </div>
   </div>
 
   <footer class="page-footer orange">
